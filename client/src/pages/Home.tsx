@@ -136,21 +136,24 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* Hero Section */}
-      <div className="relative py-12 px-4 md:py-16 md:px-6 lg:py-20 bg-gradient-to-b from-muted/50 to-background border-b border-border">
+      <div className="relative py-6 px-4 md:py-16 md:px-6 lg:py-20 bg-gradient-to-b from-muted/50 to-background border-b border-border">
         <div className="container max-w-6xl mx-auto">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3 mx-auto">
-              <ChefHat className="w-8 h-8 text-primary" />
-              <h1 className="text-4xl md:text-5xl font-bold text-foreground">
+          <div className="flex items-center justify-between mb-2 md:mb-4">
+            <div className="flex items-center gap-2 md:gap-3 mx-auto pr-8 md:pr-0">
+              <ChefHat className="w-6 h-6 md:w-8 md:h-8 text-primary shrink-0" />
+              <h1 className="text-2xl md:text-5xl font-bold text-foreground text-center md:text-left leading-tight">
                 Sous Vide & Kamado Cookbook
               </h1>
             </div>
-            <div className="absolute right-4 top-4 md:top-8 md:right-8">
+            <div className="absolute right-2 top-2 md:top-8 md:right-8">
               <ThemeToggle />
             </div>
           </div>
-          <p className="text-center text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-center text-sm md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed hidden sm:block">
             Precision recipes for perfectly cooked meals. Discover the science and art of sous vide, kamado grilling, and hybrid cooking techniques.
+          </p>
+          <p className="text-center text-xs text-muted-foreground max-w-xs mx-auto leading-relaxed sm:hidden">
+            Precision recipes for perfectly cooked meals.
           </p>
         </div>
       </div>
