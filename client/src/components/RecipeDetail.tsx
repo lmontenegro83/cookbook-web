@@ -50,14 +50,7 @@ export default function RecipeDetail({ recipe, onClose }: RecipeDetailProps) {
                 <p className="text-sm text-muted-foreground">{decodeHtmlEntities(recipe.badge)}</p>
               )}
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onClose}
-              className="h-8 w-8 shrink-0"
-            >
-              <X className="h-4 w-4" />
-            </Button>
+
           </div>
         </DialogHeader>
 
