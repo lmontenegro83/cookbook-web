@@ -1,0 +1,33 @@
+{
+  "name": "Sous Vide Cookbook - Precision Recipes",
+  "short_name": "Sous Vide",
+  "description": "A modern, searchable cookbook for sous vide recipes with full-text search and advanced filtering",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#c77d3a",
+  "background_color": "#f5f1e8",
+  "categories": ["food", "reference"],
+  "screenshots": [
+    {
+      "src": "/images/hero-banner.jpg",
+      "sizes": "540x720",
+      "type": "image/jpeg",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/images/food-showcase.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "form_factor": "wide"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    }
+  ]
+}

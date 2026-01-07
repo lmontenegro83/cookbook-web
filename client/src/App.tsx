@@ -5,6 +5,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import { useServiceWorker } from "./hooks/useServiceWorker";
 
 
 function Router() {
@@ -24,6 +25,9 @@ function Router() {
 // - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
 
 function App() {
+  // Register service worker for offline support
+  useServiceWorker();
+
   return (
     <ErrorBoundary>
       <ThemeProvider
