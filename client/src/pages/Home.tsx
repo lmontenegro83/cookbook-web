@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
-import { Search, ChefHat } from 'lucide-react';
+import { useState, useEffect, useMemo } from 'react';
+import { Search, ChefHat, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import RecipeDetail from '@/components/RecipeDetail';
 import AdvancedSearch from '@/components/AdvancedSearch';
+import TableOfContents from '@/components/TableOfContents';
 import { useRecipeSearch } from '@/hooks/useRecipeSearch';
 import { decodeHtmlEntities, stripHtmlTags } from '@/lib/textUtils';
 
@@ -13,18 +14,25 @@ interface Recipe {
   id: string;
   title: string;
   badge: string;
-  category: string;
+  section: string;
+  section_name: string;
+  protein: string;
+  protein_name: string;
+  cooking_method: string;
+  cooking_method_name: string;
   temperature: number | null;
   time_hours: number | null;
   content: string;
   searchText: string;
+  category?: string; // For backward compatibility with search hook
 }
 
 export default function Home() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedSection, setSelectedSection] = useState<string | null>(null);
+  const [selectedProtein, setSelectedProtein] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [tempRange, setTempRange] = useState<{ minTemp?: number; maxTemp?: number }>({});
   const [timeRange, setTimeRange] = useState<{ minTime?: number; maxTime?: number }>({});
@@ -46,96 +54,102 @@ export default function Home() {
   // Filter and search recipes using custom hook
   const filteredRecipes = useRecipeSearch(recipes, {
     query: searchQuery,
-    category: selectedCategory,
+    category: 'all',
     ...tempRange,
     ...timeRange,
+  }).filter(recipe => {
+    if (selectedSection && recipe.section !== selectedSection) return false;
+    if (selectedProtein && recipe.protein !== selectedProtein) return false;
+    return true;
   });
 
-  // Get unique categories
-  const categories = Array.from(new Set(recipes.map(r => r.category))).sort();
+  // Build table of contents structure
+  const tocSections = useMemo(() => {
+    const sections: Record<string, { section: string; section_name: string; proteins: Record<string, { protein: string; protein_name: string; count: number }> }> = {};
 
-  const getCategoryColor = (category: string): string => {
+    recipes.forEach(recipe => {
+      if (!sections[recipe.section]) {
+        sections[recipe.section] = {
+          section: recipe.section,
+          section_name: recipe.section_name,
+          proteins: {}
+        };
+      }
+
+      if (!sections[recipe.section].proteins[recipe.protein]) {
+        sections[recipe.section].proteins[recipe.protein] = {
+          protein: recipe.protein,
+          protein_name: recipe.protein_name,
+          count: 0
+        };
+      }
+
+      sections[recipe.section].proteins[recipe.protein].count += 1;
+    });
+
+    return Object.values(sections).map(section => ({
+      ...section,
+      count: Object.values(section.proteins).reduce((sum, p) => sum + p.count, 0),
+      proteins: Object.values(section.proteins)
+    }));
+  }, [recipes]);
+
+  const getSectionColor = (section: string): string => {
     const colors: Record<string, string> = {
-      beef: 'bg-red-100 text-red-800 border-red-300',
-      poultry: 'bg-amber-100 text-amber-800 border-amber-300',
-      seafood: 'bg-blue-100 text-blue-800 border-blue-300',
-      vegetable: 'bg-green-100 text-green-800 border-green-300',
-      other: 'bg-gray-100 text-gray-800 border-gray-300'
+      operational: 'bg-blue-50 text-blue-800 border-blue-200',
+      'sous-vide': 'bg-orange-50 text-orange-800 border-orange-200',
+      kamado: 'bg-red-50 text-red-800 border-red-200',
+      hybrid: 'bg-purple-50 text-purple-800 border-purple-200',
+      appendix: 'bg-gray-50 text-gray-800 border-gray-200',
     };
-    return colors[category] || colors.other;
+    return colors[section] || colors.operational;
   };
 
+  const handleSectionSelect = (section: string, protein?: string) => {
+    setSelectedSection(section);
+    setSelectedProtein(protein || null);
+  };
+
+  const clearFilters = () => {
+    setSelectedSection(null);
+    setSelectedProtein(null);
+    setSearchQuery('');
+    setTempRange({});
+    setTimeRange({});
+  };
+
+  const hasActiveFilters = selectedSection || selectedProtein || searchQuery || tempRange.minTemp || timeRange.minTime;
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen flex flex-col bg-background">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-background to-secondary">
-        <div className="absolute inset-0 opacity-10">
-          <img 
-            src="/images/pattern-accent.jpg" 
-            alt="" 
-            className="w-full h-full object-cover"
-          />
-        </div>
-        
-        <div className="relative container mx-auto px-4 py-20 md:py-32">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <ChefHat className="w-10 h-10 text-primary" />
-              <h1 className="text-5xl md:text-6xl font-bold text-foreground">
-                Sous Vide Cookbook
-              </h1>
-            </div>
-            <p className="text-xl text-muted-foreground mb-8">
-              Precision recipes for perfectly cooked meals. Discover the science and art of sous vide cooking.
-            </p>
-            
-            {/* Hero Image */}
-            <div className="mb-12 rounded-lg overflow-hidden shadow-lg">
-              <img 
-                src="/images/hero-banner.jpg" 
-                alt="Sous vide cooking setup" 
-                className="w-full h-auto object-cover"
-              />
-            </div>
+      <div className="relative py-12 px-4 md:py-16 md:px-6 lg:py-20 bg-gradient-to-b from-muted/50 to-background border-b border-border">
+        <div className="container max-w-6xl mx-auto">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <ChefHat className="w-8 h-8 text-primary" />
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground">
+              Sous Vide Cookbook
+            </h1>
           </div>
+          <p className="text-center text-lg text-muted-foreground max-w-2xl mx-auto">
+            Precision recipes for perfectly cooked meals. Discover the science and art of sous vide, kamado grilling, and hybrid cooking techniques.
+          </p>
         </div>
-      </section>
+      </div>
 
       {/* Main Content */}
-      <section className="container mx-auto px-4 py-16">
+      <div className="flex-1 container max-w-7xl mx-auto py-8 px-4">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Sidebar - Filters */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-4">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Filter by Category</h3>
-              <div className="space-y-2">
-                <Button
-                  variant={selectedCategory === 'all' ? 'default' : 'outline'}
-                  className="w-full justify-start"
-                  onClick={() => setSelectedCategory('all')}
-                >
-                  All Recipes ({recipes.length})
-                </Button>
-                {categories.map(cat => {
-                  const count = recipes.filter(r => r.category === cat).length;
-                  return (
-                    <Button
-                      key={cat}
-                      variant={selectedCategory === cat ? 'default' : 'outline'}
-                      className="w-full justify-start capitalize"
-                      onClick={() => setSelectedCategory(cat)}
-                    >
-                      {cat} ({count})
-                    </Button>
-                  );
-                })}
-              </div>
+          {/* Sidebar - Table of Contents */}
+          <aside className="lg:col-span-1">
+            <div className="sticky top-4 space-y-6">
+              <TableOfContents sections={tocSections} onSectionSelect={handleSectionSelect} />
             </div>
-          </div>
+          </aside>
 
           {/* Main Content - Recipes */}
           <div className="lg:col-span-3">
-            {/* Search Bar */}
+            {/* Search and Filters */}
             <div className="mb-8 space-y-4">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
@@ -147,7 +161,7 @@ export default function Home() {
                   className="pl-10 py-6 text-base border-2 border-border focus:border-primary"
                 />
               </div>
-              
+
               {/* Advanced Search */}
               <AdvancedSearch
                 onFilterChange={(filters) => {
@@ -161,7 +175,45 @@ export default function Home() {
                   });
                 }}
               />
-              
+
+              {/* Active Filters Display */}
+              {hasActiveFilters && (
+                <div className="flex flex-wrap gap-2 items-center">
+                  {selectedSection && (
+                    <Badge variant="secondary" className="gap-1">
+                      {tocSections.find(s => s.section === selectedSection)?.section_name}
+                      <button
+                        onClick={() => setSelectedSection(null)}
+                        className="ml-1 hover:opacity-70"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </Badge>
+                  )}
+                  {selectedProtein && (
+                    <Badge variant="secondary" className="gap-1">
+                      {recipes.find(r => r.protein === selectedProtein)?.protein_name}
+                      <button
+                        onClick={() => setSelectedProtein(null)}
+                        className="ml-1 hover:opacity-70"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </Badge>
+                  )}
+                  {hasActiveFilters && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={clearFilters}
+                      className="text-xs"
+                    >
+                      Clear all
+                    </Button>
+                  )}
+                </div>
+              )}
+
               <p className="text-sm text-muted-foreground">
                 {filteredRecipes.length} recipe{filteredRecipes.length !== 1 ? 's' : ''} found
               </p>
@@ -174,7 +226,7 @@ export default function Home() {
               </div>
             ) : filteredRecipes.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-muted-foreground text-lg">No recipes found. Try adjusting your search.</p>
+                <p className="text-muted-foreground">No recipes found matching your criteria.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -189,25 +241,29 @@ export default function Home() {
                         <h3 className="text-lg font-semibold text-foreground flex-1 line-clamp-2">
                           {recipe.title}
                         </h3>
-                        {recipe.badge && (
-                          <Badge className={`whitespace-nowrap ${getCategoryColor(recipe.category)}`}>
-                            {decodeHtmlEntities(recipe.badge)}
-                          </Badge>
-                        )}
+                        <Badge className={`whitespace-nowrap ${getSectionColor(recipe.section)}`}>
+                          {recipe.section_name}
+                        </Badge>
                       </div>
 
                       {/* Recipe Metadata */}
                       <div className="flex flex-wrap gap-4 mb-4">
                         {recipe.temperature && (
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-semibold text-primary">🌡️</span>
-                            <span className="text-sm text-foreground">{recipe.temperature}°F</span>
+                          <div className="flex flex-col gap-1">
+                            <span className="text-xs font-semibold text-primary">Temperature</span>
+                            <span className="text-sm font-bold text-foreground">{recipe.temperature}°F</span>
                           </div>
                         )}
                         {recipe.time_hours && (
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-semibold text-primary">⏱️</span>
-                            <span className="text-sm text-foreground">{recipe.time_hours}h</span>
+                          <div className="flex flex-col gap-1">
+                            <span className="text-xs font-semibold text-primary">Time</span>
+                            <span className="text-sm font-bold text-foreground">{recipe.time_hours}h</span>
+                          </div>
+                        )}
+                        {recipe.protein !== 'other' && (
+                          <div className="flex flex-col gap-1">
+                            <span className="text-xs font-semibold text-primary">Protein</span>
+                            <span className="text-sm font-bold text-foreground">{recipe.protein_name}</span>
                           </div>
                         )}
                       </div>
@@ -217,8 +273,8 @@ export default function Home() {
                         {stripHtmlTags(recipe.content).substring(0, 120)}...
                       </p>
 
-                      <Button 
-                        variant="default" 
+                      <Button
+                        variant="default"
                         className="w-full mt-4 bg-primary hover:bg-primary/90 text-primary-foreground"
                         onClick={(e) => {
                           e.stopPropagation();
@@ -234,14 +290,11 @@ export default function Home() {
             )}
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Recipe Detail Modal */}
       {selectedRecipe && (
-        <RecipeDetail 
-          recipe={selectedRecipe} 
-          onClose={() => setSelectedRecipe(null)}
-        />
+        <RecipeDetail recipe={selectedRecipe} onClose={() => setSelectedRecipe(null)} />
       )}
     </div>
   );
