@@ -6,6 +6,8 @@ const ASSETS_TO_CACHE = [
   buildUrl('index.html'),
   buildUrl('recipes.json'),
   buildUrl('manifest.json'),
+  buildUrl('assets/index-W82P3Hg4.js'),
+  buildUrl('assets/index-BZxvxeNz.css'),
   buildUrl('images/hero-banner.jpg'),
   buildUrl('images/food-showcase.jpg'),
   buildUrl('images/pattern-accent.jpg')

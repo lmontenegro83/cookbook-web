@@ -11,13 +11,13 @@
   "categories": ["food", "reference"],
   "screenshots": [
     {
-      "src": "/images/hero-banner.jpg",
+      "src": "images/hero-banner.jpg",
       "sizes": "540x720",
       "type": "image/jpeg",
       "form_factor": "narrow"
     },
     {
-      "src": "/images/food-showcase.jpg",
+      "src": "images/food-showcase.jpg",
       "sizes": "1280x720",
       "type": "image/jpeg",
       "form_factor": "wide"
@@ -25,7 +25,7 @@
   ],
   "icons": [
     {
-      "src": "/favicon.ico",
+      "src": "favicon.ico",
       "sizes": "32x32",
       "type": "image/x-icon"
     }
