@@ -77,7 +77,7 @@ export default function TableOfContents({
             <Button
               variant="ghost"
               className={`w-full justify-start gap-2 h-auto py-2 px-3 text-left hover:bg-muted ${
-                selectedSection === section.section && !selectedProtein ? 'bg-muted' : ''
+                selectedSection === section.section && !selectedProtein && !selectedCookingMethod ? 'bg-muted' : ''
               }`}
               onClick={() => onSectionSelect(section.section)}
             >
@@ -99,7 +99,38 @@ export default function TableOfContents({
           </CollapsibleTrigger>
 
           <CollapsibleContent className="pl-6 space-y-1 pt-2">
-            {section.proteins.map((protein) => (
+            {/* Special filtering for Operational Guidance */}
+            {section.section === 'operational' && (
+              <>
+                <Button
+                  variant="ghost"
+                  className={`w-full justify-start text-sm h-auto py-1.5 px-2 text-muted-foreground hover:text-foreground hover:bg-muted/50 ${
+                    selectedSection === 'operational' && selectedCookingMethod === 'sous-vide' ? 'bg-muted/50 text-foreground' : ''
+                  }`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSectionSelect('operational', undefined, 'sous-vide');
+                  }}
+                >
+                  <span className="flex-1 text-left">Sous Vide</span>
+                </Button>
+                <Button
+                  variant="ghost"
+                  className={`w-full justify-start text-sm h-auto py-1.5 px-2 text-muted-foreground hover:text-foreground hover:bg-muted/50 ${
+                    selectedSection === 'operational' && selectedCookingMethod === 'kamado' ? 'bg-muted/50 text-foreground' : ''
+                  }`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSectionSelect('operational', undefined, 'kamado');
+                  }}
+                >
+                  <span className="flex-1 text-left">Kamado</span>
+                </Button>
+              </>
+            )}
+
+            {/* Standard protein filtering for other sections */}
+            {section.section !== 'operational' && section.proteins.map((protein) => (
               <Button
                 key={`${section.section}-${protein.protein}`}
                 variant="ghost"
