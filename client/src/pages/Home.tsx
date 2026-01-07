@@ -20,6 +20,7 @@ interface Recipe {
   protein_name: string;
   cooking_method?: string;
   cooking_method_name?: string;
+  content_type?: string; // 'recipe', 'guidance', 'troubleshooting', 'reference'
   temperature: number | null;
   time_hours: number | null;
   content: string;
@@ -53,16 +54,20 @@ export default function Home() {
   }, []);
 
   // Filter and search recipes using custom hook
-  const filteredRecipes = useRecipeSearch(recipes, {
+  let filteredRecipes = useRecipeSearch(recipes, {
     query: searchQuery,
     category: 'all',
     ...tempRange,
     ...timeRange,
-  }).filter(recipe => {
-    if (selectedSection && recipe.section !== selectedSection) return false;
-    if (selectedProtein && recipe.protein !== selectedProtein) return false;
-    return true;
   });
+  
+  // Apply section and protein filters
+  if (selectedSection) {
+    filteredRecipes = filteredRecipes.filter(recipe => recipe.section === selectedSection);
+  }
+  if (selectedProtein) {
+    filteredRecipes = filteredRecipes.filter(recipe => recipe.protein === selectedProtein);
+  }
 
   // Build table of contents structure
   const tocSections = useMemo(() => {
@@ -144,7 +149,12 @@ export default function Home() {
           {/* Sidebar - Table of Contents */}
           <aside className="lg:col-span-1">
             <div className="sticky top-4 space-y-6">
-              <TableOfContents sections={tocSections} onSectionSelect={handleSectionSelect} />
+              <TableOfContents 
+              sections={tocSections} 
+              onSectionSelect={handleSectionSelect}
+              selectedSection={selectedSection}
+              selectedProtein={selectedProtein}
+            />
             </div>
           </aside>
 
@@ -249,19 +259,19 @@ export default function Home() {
 
                       {/* Recipe Metadata */}
                       <div className="flex flex-wrap gap-4 mb-4">
-                        {recipe.temperature && (
+                        {recipe.temperature && recipe.content_type === 'recipe' && (
                           <div className="flex flex-col gap-1">
                             <span className="text-xs font-semibold text-primary">Temperature</span>
                             <span className="text-sm font-bold text-foreground">{recipe.temperature}°F</span>
                           </div>
                         )}
-                        {recipe.time_hours && (
+                        {recipe.time_hours && recipe.content_type === 'recipe' && (
                           <div className="flex flex-col gap-1">
                             <span className="text-xs font-semibold text-primary">Time</span>
                             <span className="text-sm font-bold text-foreground">{recipe.time_hours}h</span>
                           </div>
                         )}
-                        {recipe.protein !== 'other' && (
+                        {recipe.protein !== 'other' && recipe.content_type === 'recipe' && (
                           <div className="flex flex-col gap-1">
                             <span className="text-xs font-semibold text-primary">Protein</span>
                             <span className="text-sm font-bold text-foreground">{recipe.protein_name}</span>

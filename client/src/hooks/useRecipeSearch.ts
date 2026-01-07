@@ -10,6 +10,7 @@ interface Recipe {
   protein_name: string;
   cooking_method?: string;
   cooking_method_name?: string;
+  content_type?: string;
   temperature: number | null;
   time_hours: number | null;
   content: string;

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronDown, Book, Flame, Wind, Blend } from 'lucide-react';
+import { ChevronDown, Book, Flame, Wind, Blend, AlertCircle, Utensils, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Collapsible,
@@ -15,6 +15,8 @@ interface TableOfContentsProps {
     proteins: { protein: string; protein_name: string; count: number }[];
   }[];
   onSectionSelect: (section: string, protein?: string) => void;
+  selectedSection?: string | null;
+  selectedProtein?: string | null;
 }
 
 const SECTION_ICONS: Record<string, React.ReactNode> = {
@@ -22,7 +24,9 @@ const SECTION_ICONS: Record<string, React.ReactNode> = {
   'sous-vide': <Flame className="w-4 h-4" />,
   'kamado': <Wind className="w-4 h-4" />,
   'hybrid': <Blend className="w-4 h-4" />,
-  'appendix': <Book className="w-4 h-4" />,
+  'rubs': <Utensils className="w-4 h-4" />,
+  'troubleshooting': <AlertCircle className="w-4 h-4" />,
+  'appendix': <FileText className="w-4 h-4" />,
 };
 
 const SECTION_COLORS: Record<string, string> = {
@@ -30,12 +34,19 @@ const SECTION_COLORS: Record<string, string> = {
   'sous-vide': 'text-orange-600 hover:text-orange-700',
   'kamado': 'text-red-600 hover:text-red-700',
   'hybrid': 'text-purple-600 hover:text-purple-700',
+  'rubs': 'text-amber-600 hover:text-amber-700',
+  'troubleshooting': 'text-rose-600 hover:text-rose-700',
   'appendix': 'text-gray-600 hover:text-gray-700',
 };
 
-export default function TableOfContents({ sections, onSectionSelect }: TableOfContentsProps) {
+export default function TableOfContents({ 
+  sections, 
+  onSectionSelect, 
+  selectedSection,
+  selectedProtein 
+}: TableOfContentsProps) {
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
-    new Set(['sous-vide', 'kamado'])
+    new Set(['operational', 'sous-vide', 'kamado'])
   );
 
   const toggleSection = (section: string) => {
@@ -63,7 +74,10 @@ export default function TableOfContents({ sections, onSectionSelect }: TableOfCo
           <CollapsibleTrigger asChild>
             <Button
               variant="ghost"
-              className="w-full justify-start gap-2 h-auto py-2 px-3 text-left hover:bg-muted"
+              className={`w-full justify-start gap-2 h-auto py-2 px-3 text-left hover:bg-muted ${
+                selectedSection === section.section && !selectedProtein ? 'bg-muted' : ''
+              }`}
+              onClick={() => onSectionSelect(section.section)}
             >
               <ChevronDown
                 className={`w-4 h-4 transition-transform ${
@@ -87,8 +101,13 @@ export default function TableOfContents({ sections, onSectionSelect }: TableOfCo
               <Button
                 key={`${section.section}-${protein.protein}`}
                 variant="ghost"
-                className="w-full justify-start text-sm h-auto py-1.5 px-2 text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                onClick={() => onSectionSelect(section.section, protein.protein)}
+                className={`w-full justify-start text-sm h-auto py-1.5 px-2 text-muted-foreground hover:text-foreground hover:bg-muted/50 ${
+                  selectedSection === section.section && selectedProtein === protein.protein ? 'bg-muted/50 text-foreground' : ''
+                }`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onSectionSelect(section.section, protein.protein);
+                }}
               >
                 <span className="flex-1 text-left">{protein.protein_name}</span>
                 <span className="text-xs text-muted-foreground">
