@@ -224,7 +224,7 @@ export default function Home() {
                           setSelectedRecipe(recipe);
                         }}
                       >
-                        View Recipe
+                        View Details
                       </Button>
                     </div>
                   </Card>
