@@ -18,15 +18,14 @@ interface Recipe {
   section_name: string;
   protein: string;
   protein_name: string;
-  cooking_method?: string;
-  cooking_method_name?: string;
-  content_type?: string; // 'recipe', 'guidance', 'troubleshooting', 'reference'
+  cooking_methods?: string[];
+  content_type?: string;
   temperature: number | null;
   time_hours: number | null;
   content: string;
-  content_text: string; // Plain text version for previews
+  content_text: string;
   searchText: string;
-  category?: string; // For backward compatibility with search hook
+  category?: string;
 }
 
 export default function Home() {
@@ -35,6 +34,7 @@ export default function Home() {
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
   const [selectedProtein, setSelectedProtein] = useState<string | null>(null);
+  const [selectedCookingMethod, setSelectedCookingMethod] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [tempRange, setTempRange] = useState<{ minTemp?: number; maxTemp?: number }>({});
   const [timeRange, setTimeRange] = useState<{ minTime?: number; maxTime?: number }>({});
@@ -67,6 +67,12 @@ export default function Home() {
   }
   if (selectedProtein) {
     filteredRecipes = filteredRecipes.filter(recipe => recipe.protein === selectedProtein);
+  }
+  // Apply cooking method filter for operational guidance items
+  if (selectedCookingMethod && selectedSection === 'operational') {
+    filteredRecipes = filteredRecipes.filter(recipe => 
+      recipe.cooking_methods && recipe.cooking_methods.includes(selectedCookingMethod)
+    );
   }
 
   // Build table of contents structure
@@ -106,25 +112,29 @@ export default function Home() {
       'sous-vide': 'bg-orange-50 text-orange-800 border-orange-200',
       kamado: 'bg-red-50 text-red-800 border-red-200',
       hybrid: 'bg-purple-50 text-purple-800 border-purple-200',
+      rubs: 'bg-amber-50 text-amber-800 border-amber-200',
+      troubleshooting: 'bg-rose-50 text-rose-800 border-rose-200',
       appendix: 'bg-gray-50 text-gray-800 border-gray-200',
     };
     return colors[section] || colors.operational;
   };
 
-  const handleSectionSelect = (section: string, protein?: string) => {
+  const handleSectionSelect = (section: string, protein?: string, cookingMethod?: string) => {
     setSelectedSection(section);
     setSelectedProtein(protein || null);
+    setSelectedCookingMethod(cookingMethod || null);
   };
 
   const clearFilters = () => {
     setSelectedSection(null);
     setSelectedProtein(null);
+    setSelectedCookingMethod(null);
     setSearchQuery('');
     setTempRange({});
     setTimeRange({});
   };
 
-  const hasActiveFilters = selectedSection || selectedProtein || searchQuery || tempRange.minTemp || timeRange.minTime;
+  const hasActiveFilters = selectedSection || selectedProtein || selectedCookingMethod || searchQuery || tempRange.minTemp || timeRange.minTime;
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -150,11 +160,12 @@ export default function Home() {
           <aside className="lg:col-span-1">
             <div className="sticky top-4 space-y-6">
               <TableOfContents 
-              sections={tocSections} 
-              onSectionSelect={handleSectionSelect}
-              selectedSection={selectedSection}
-              selectedProtein={selectedProtein}
-            />
+                sections={tocSections} 
+                onSectionSelect={handleSectionSelect}
+                selectedSection={selectedSection}
+                selectedProtein={selectedProtein}
+                selectedCookingMethod={selectedCookingMethod}
+              />
             </div>
           </aside>
 
@@ -206,6 +217,17 @@ export default function Home() {
                       {recipes.find(r => r.protein === selectedProtein)?.protein_name}
                       <button
                         onClick={() => setSelectedProtein(null)}
+                        className="ml-1 hover:opacity-70"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </Badge>
+                  )}
+                  {selectedCookingMethod && (
+                    <Badge variant="secondary" className="gap-1">
+                      {selectedCookingMethod.charAt(0).toUpperCase() + selectedCookingMethod.slice(1)}
+                      <button
+                        onClick={() => setSelectedCookingMethod(null)}
                         className="ml-1 hover:opacity-70"
                       >
                         <X className="w-3 h-3" />
@@ -275,6 +297,12 @@ export default function Home() {
                           <div className="flex flex-col gap-1">
                             <span className="text-xs font-semibold text-primary">Protein</span>
                             <span className="text-sm font-bold text-foreground">{recipe.protein_name}</span>
+                          </div>
+                        )}
+                        {recipe.cooking_methods && recipe.cooking_methods.length > 0 && (
+                          <div className="flex flex-col gap-1">
+                            <span className="text-xs font-semibold text-primary">Methods</span>
+                            <span className="text-sm font-bold text-foreground">{recipe.cooking_methods.map(m => m.charAt(0).toUpperCase() + m.slice(1)).join(', ')}</span>
                           </div>
                         )}
                       </div>

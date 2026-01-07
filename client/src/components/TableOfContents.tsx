@@ -14,9 +14,10 @@ interface TableOfContentsProps {
     count: number;
     proteins: { protein: string; protein_name: string; count: number }[];
   }[];
-  onSectionSelect: (section: string, protein?: string) => void;
+  onSectionSelect: (section: string, protein?: string, cookingMethod?: string) => void;
   selectedSection?: string | null;
   selectedProtein?: string | null;
+  selectedCookingMethod?: string | null;
 }
 
 const SECTION_ICONS: Record<string, React.ReactNode> = {
@@ -43,7 +44,8 @@ export default function TableOfContents({
   sections, 
   onSectionSelect, 
   selectedSection,
-  selectedProtein 
+  selectedProtein,
+  selectedCookingMethod
 }: TableOfContentsProps) {
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
     new Set(['operational', 'sous-vide', 'kamado'])

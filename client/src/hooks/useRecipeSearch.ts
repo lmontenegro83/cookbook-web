@@ -8,8 +8,7 @@ interface Recipe {
   section_name: string;
   protein: string;
   protein_name: string;
-  cooking_method?: string;
-  cooking_method_name?: string;
+  cooking_methods?: string[];
   content_type?: string;
   temperature: number | null;
   time_hours: number | null;

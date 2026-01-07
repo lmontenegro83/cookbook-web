@@ -17,6 +17,9 @@ interface AdvancedSearchProps {
   }) => void;
 }
 
+// Helper function to convert Fahrenheit to Celsius
+const fahrenheitToCelsius = (f: number) => Math.round((f - 32) * 5/9);
+
 export default function AdvancedSearch({ onFilterChange }: AdvancedSearchProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [tempRange, setTempRange] = useState<[number, number]>([120, 210]);
@@ -69,7 +72,7 @@ export default function AdvancedSearch({ onFilterChange }: AdvancedSearchProps) 
               Temperature Range
             </label>
             <span className="text-sm text-muted-foreground">
-              {tempRange[0]}°F - {tempRange[1]}°F
+              {tempRange[0]}°F ({fahrenheitToCelsius(tempRange[0])}°C) - {tempRange[1]}°F ({fahrenheitToCelsius(tempRange[1])}°C)
             </span>
           </div>
           <Slider
