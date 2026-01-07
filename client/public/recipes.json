@@ -82,7 +82,7 @@
   {
     "id": "ultimate-steak",
     "title": "Ultimate Steak",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 1,
@@ -92,7 +92,7 @@
   {
     "id": "indoor-barbecued-beef-short-ribs-your-way",
     "title": "Indoor Barbecued Beef\nShort Ribs Your Way",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 48,
@@ -102,7 +102,7 @@
   {
     "id": "koreanstyle-beef-short-ribs-kalbi",
     "title": "Korean\u2011Style Beef Short Ribs\n(Kalbi)",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 8,
@@ -112,7 +112,7 @@
   {
     "id": "flank-steak-tender-slices-for-fajitas-or-bowls",
     "title": "Flank Steak (Tender Slices for Fajitas or Bowls)",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 3,
@@ -122,7 +122,7 @@
   {
     "id": "tri-tip-roast-juicy-roast-beef-style",
     "title": "Tri-Tip Roast (Juicy Roast Beef Style)",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 4,
@@ -132,7 +132,7 @@
   {
     "id": "chuck-roast-pot-roast-style-slices",
     "title": "Chuck Roast (Pot-Roast-Style Slices)",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 24,
@@ -142,7 +142,7 @@
   {
     "id": "brisket-flat-smoked-finish-style",
     "title": "Brisket Flat (Smoked-Finish Style)",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 30,
@@ -152,7 +152,7 @@
   {
     "id": "burger-patties-smash-or-pub-style",
     "title": "Burger Patties (Smash or Pub-Style)",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 1,
@@ -162,7 +162,7 @@
   {
     "id": "ultimate-steakhousestyle-pork-chop",
     "title": "Ultimate Steakhouse\u2011Style\nPork Chop",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 1,
@@ -172,7 +172,7 @@
   {
     "id": "indoor-baby-back-ribs",
     "title": "Indoor Baby Back Ribs",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 3,
@@ -182,7 +182,7 @@
   {
     "id": "pork-tenderloin-weeknight-roast",
     "title": "Pork Tenderloin (Weeknight Roast)",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 1,
@@ -192,7 +192,7 @@
   {
     "id": "pork-shoulder-pulled-pork",
     "title": "Pork Shoulder (Pulled Pork)",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 18,
@@ -202,7 +202,7 @@
   {
     "id": "pork-belly-crispy-top",
     "title": "Pork Belly (Crispy Top)",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 10,
@@ -212,7 +212,7 @@
   {
     "id": "pork-loin-roast-thick-loin-roast",
     "title": "Pork Loin Roast (Thick Loin Roast)",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 3,
@@ -222,7 +222,7 @@
   {
     "id": "country-style-pork-ribs",
     "title": "Country-Style Pork Ribs",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 8,
@@ -232,7 +232,7 @@
   {
     "id": "chicken-breast",
     "title": "Chicken Breast",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 1,
@@ -242,7 +242,7 @@
   {
     "id": "chicken-legsthighs-with-grill-finish",
     "title": "Chicken Legs/Thighs with\nGrill Finish",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 3,
@@ -252,7 +252,7 @@
   {
     "id": "boneless-skinless-chicken-thighs",
     "title": "Boneless Skinless Chicken Thighs",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 1,
@@ -262,7 +262,7 @@
   {
     "id": "chicken-drumsticks",
     "title": "Chicken Drumsticks",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 1,
@@ -272,7 +272,7 @@
   {
     "id": "chicken-wings",
     "title": "Chicken Wings",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 1,
@@ -282,7 +282,7 @@
   {
     "id": "whole-chicken-spatchcock-for-finishing",
     "title": "Whole Chicken (Spatchcock for Finishing)",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 4,
@@ -292,7 +292,7 @@
   {
     "id": "chicken-breast-cutlets-schnitzel-prep",
     "title": "Chicken Breast Cutlets (Schnitzel Prep)",
-    "badge": "Fresh &amp; frozen",
+    "badge": "Fresh & frozen",
     "category": "other",
     "temperature": null,
     "time_hours": 1,
@@ -302,7 +302,7 @@
   {
     "id": "ultimate-carrots",
     "title": "Ultimate Carrots",
-    "badge": "Veg &amp; sides",
+    "badge": "Veg & sides",
     "category": "vegetable",
     "temperature": null,
     "time_hours": 2,
@@ -312,7 +312,7 @@
   {
     "id": "ultimate-asparagus",
     "title": "Ultimate Asparagus",
-    "badge": "Veg &amp; sides",
+    "badge": "Veg & sides",
     "category": "vegetable",
     "temperature": null,
     "time_hours": null,
@@ -322,7 +322,7 @@
   {
     "id": "bright-and-beautiful-butternut-squash",
     "title": "Bright and Beautiful\nButternut Squash",
-    "badge": "Veg &amp; sides",
+    "badge": "Veg & sides",
     "category": "vegetable",
     "temperature": null,
     "time_hours": null,
@@ -332,7 +332,7 @@
   {
     "id": "sweet-tender-fennel",
     "title": "Sweet, Tender Fennel",
-    "badge": "Veg &amp; sides",
+    "badge": "Veg & sides",
     "category": "vegetable",
     "temperature": null,
     "time_hours": 2,
@@ -342,7 +342,7 @@
   {
     "id": "curried-cauliflower-on-the-quick",
     "title": "Curried Cauliflower on the\nQuick",
-    "badge": "Veg &amp; sides",
+    "badge": "Veg & sides",
     "category": "vegetable",
     "temperature": null,
     "time_hours": 1,
@@ -352,7 +352,7 @@
   {
     "id": "tender-and-snappy-broccoli",
     "title": "Tender and Snappy Broccoli",
-    "badge": "Veg &amp; sides",
+    "badge": "Veg & sides",
     "category": "vegetable",
     "temperature": null,
     "time_hours": 1,
@@ -362,7 +362,7 @@
   {
     "id": "fingerling-potatoes-with-roasted-garlic-and-rosemary",
     "title": "Fingerling\nPotatoes with Roasted Garlic and Rosemary",
-    "badge": "Veg &amp; sides",
+    "badge": "Veg & sides",
     "category": "vegetable",
     "temperature": null,
     "time_hours": 1,
@@ -372,7 +372,7 @@
   {
     "id": "fresh-and-vibrant-sweet-potatoes",
     "title": "Fresh and Vibrant Sweet\nPotatoes",
-    "badge": "Veg &amp; sides",
+    "badge": "Veg & sides",
     "category": "vegetable",
     "temperature": null,
     "time_hours": null,
@@ -382,7 +382,7 @@
   {
     "id": "yukon-gold-potatoes",
     "title": "Yukon Gold Potatoes",
-    "badge": "Veg &amp; sides",
+    "badge": "Veg & sides",
     "category": "vegetable",
     "temperature": null,
     "time_hours": 1,

@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import RecipeDetail from '@/components/RecipeDetail';
 import AdvancedSearch from '@/components/AdvancedSearch';
 import { useRecipeSearch } from '@/hooks/useRecipeSearch';
+import { decodeHtmlEntities, stripHtmlTags } from '@/lib/textUtils';
 
 interface Recipe {
   id: string;
@@ -188,9 +189,9 @@ export default function Home() {
                         <h3 className="text-lg font-semibold text-foreground flex-1 line-clamp-2">
                           {recipe.title}
                         </h3>
-                        {recipe.category !== 'other' && (
-                          <Badge className={`capitalize whitespace-nowrap ${getCategoryColor(recipe.category)}`}>
-                            {recipe.category}
+                        {recipe.badge && (
+                          <Badge className={`whitespace-nowrap ${getCategoryColor(recipe.category)}`}>
+                            {decodeHtmlEntities(recipe.badge)}
                           </Badge>
                         )}
                       </div>
@@ -213,7 +214,7 @@ export default function Home() {
 
                       {/* Preview */}
                       <p className="text-sm text-muted-foreground line-clamp-3">
-                        {recipe.content.replace(/<[^>]*>/g, '').substring(0, 120)}...
+                        {stripHtmlTags(recipe.content).substring(0, 120)}...
                       </p>
 
                       <Button 
