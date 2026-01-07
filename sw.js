@@ -1,16 +1,16 @@
 const CACHE_NAME = 'sous-vide-cookbook-v1';
-const BASE_URL = self.registration.scope;
-const buildUrl = path => new URL(path, BASE_URL).toString();
+const BASE = self.registration.scope;
+const buildPath = path => new URL(path, BASE).pathname;
 const ASSETS_TO_CACHE = [
-  buildUrl('./'),
-  buildUrl('index.html'),
-  buildUrl('recipes.json'),
-  buildUrl('manifest.json'),
-  buildUrl('assets/index-W82P3Hg4.js'),
-  buildUrl('assets/index-BZxvxeNz.css'),
-  buildUrl('images/hero-banner.jpg'),
-  buildUrl('images/food-showcase.jpg'),
-  buildUrl('images/pattern-accent.jpg')
+  buildPath('./'),
+  buildPath('index.html'),
+  buildPath('recipes.json'),
+  buildPath('manifest.json'),
+  buildPath('assets/index-W82P3Hg4.js'),
+  buildPath('assets/index-BZxvxeNz.css'),
+  buildPath('images/hero-banner.jpg'),
+  buildPath('images/food-showcase.jpg'),
+  buildPath('images/pattern-accent.jpg')
 ];
 
 // Install event - cache essential assets
