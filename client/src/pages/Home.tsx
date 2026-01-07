@@ -18,11 +18,12 @@ interface Recipe {
   section_name: string;
   protein: string;
   protein_name: string;
-  cooking_method: string;
-  cooking_method_name: string;
+  cooking_method?: string;
+  cooking_method_name?: string;
   temperature: number | null;
   time_hours: number | null;
   content: string;
+  content_text: string; // Plain text version for previews
   searchText: string;
   category?: string; // For backward compatibility with search hook
 }
@@ -270,7 +271,7 @@ export default function Home() {
 
                       {/* Preview */}
                       <p className="text-sm text-muted-foreground line-clamp-3">
-                        {stripHtmlTags(recipe.content).substring(0, 120)}...
+                        {recipe.content_text.substring(0, 120)}...
                       </p>
 
                       <Button

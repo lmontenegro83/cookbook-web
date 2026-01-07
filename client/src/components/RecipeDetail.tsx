@@ -11,11 +11,12 @@ interface Recipe {
   section_name: string;
   protein: string;
   protein_name: string;
-  cooking_method: string;
-  cooking_method_name: string;
+  cooking_method?: string;
+  cooking_method_name?: string;
   temperature: number | null;
   time_hours: number | null;
   content: string;
+  content_text: string;
   searchText: string;
   category?: string;
 }
