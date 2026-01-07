@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Search, ChefHat, X, Menu } from 'lucide-react';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -137,11 +138,16 @@ export default function Home() {
       {/* Hero Section */}
       <div className="relative py-12 px-4 md:py-16 md:px-6 lg:py-20 bg-gradient-to-b from-muted/50 to-background border-b border-border">
         <div className="container max-w-6xl mx-auto">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <ChefHat className="w-8 h-8 text-primary" />
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground">
-              Sous Vide & Kamado Cookbook
-            </h1>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3 mx-auto">
+              <ChefHat className="w-8 h-8 text-primary" />
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground">
+                Sous Vide & Kamado Cookbook
+              </h1>
+            </div>
+            <div className="absolute right-4 top-4 md:top-8 md:right-8">
+              <ThemeToggle />
+            </div>
           </div>
           <p className="text-center text-lg text-muted-foreground max-w-2xl mx-auto">
             Precision recipes for perfectly cooked meals. Discover the science and art of sous vide, kamado grilling, and hybrid cooking techniques.
