@@ -1,11 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Search, ChefHat, X } from 'lucide-react';
+import { Search, ChefHat, X, Menu } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import RecipeDetail from '@/components/RecipeDetail';
-import AdvancedSearch from '@/components/AdvancedSearch';
+// AdvancedSearch removed per user request
 import TableOfContents from '@/components/TableOfContents';
 import { useRecipeSearch } from '@/hooks/useRecipeSearch';
 import { decodeHtmlEntities, stripHtmlTags } from '@/lib/textUtils';
@@ -36,8 +37,7 @@ export default function Home() {
   const [selectedProtein, setSelectedProtein] = useState<string | null>(null);
   const [selectedCookingMethod, setSelectedCookingMethod] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [tempRange, setTempRange] = useState<{ minTemp?: number; maxTemp?: number }>({});
-  const [timeRange, setTimeRange] = useState<{ minTime?: number; maxTime?: number }>({});
+  // Filters removed
 
   // Load recipes from JSON
   useEffect(() => {
@@ -57,8 +57,6 @@ export default function Home() {
   let filteredRecipes = useRecipeSearch(recipes, {
     query: searchQuery,
     category: 'all',
-    ...tempRange,
-    ...timeRange,
   });
   
   // Apply section and protein filters
@@ -130,11 +128,9 @@ export default function Home() {
     setSelectedProtein(null);
     setSelectedCookingMethod(null);
     setSearchQuery('');
-    setTempRange({});
-    setTimeRange({});
   };
 
-  const hasActiveFilters = selectedSection || selectedProtein || selectedCookingMethod || searchQuery || tempRange.minTemp || timeRange.minTime;
+  const hasActiveFilters = selectedSection || selectedProtein || selectedCookingMethod || searchQuery;
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -144,7 +140,7 @@ export default function Home() {
           <div className="flex items-center justify-center gap-3 mb-4">
             <ChefHat className="w-8 h-8 text-primary" />
             <h1 className="text-4xl md:text-5xl font-bold text-foreground">
-              Sous Vide Cookbook
+              Sous Vide & Kamado Cookbook
             </h1>
           </div>
           <p className="text-center text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -156,8 +152,8 @@ export default function Home() {
       {/* Main Content */}
       <div className="flex-1 container max-w-7xl mx-auto py-8 px-4">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Sidebar - Table of Contents */}
-          <aside className="lg:col-span-1">
+          {/* Sidebar - Table of Contents (Desktop) */}
+          <aside className="hidden lg:block lg:col-span-1">
             <div className="sticky top-4 space-y-6">
               <TableOfContents 
                 sections={tocSections} 
@@ -173,6 +169,35 @@ export default function Home() {
           <div className="lg:col-span-3">
             {/* Search and Filters */}
             <div className="mb-8 space-y-4">
+              {/* Mobile Menu Trigger */}
+              <div className="lg:hidden mb-4">
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <Button variant="outline" className="w-full gap-2">
+                      <Menu className="w-4 h-4" />
+                      Browse Categories
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent side="left" className="w-[300px] sm:w-[400px] overflow-y-auto">
+                    <SheetTitle className="text-left mb-4">Categories</SheetTitle>
+                    <SheetDescription className="sr-only">
+                      Browse recipes by category and cooking method
+                    </SheetDescription>
+                    <TableOfContents 
+                      sections={tocSections} 
+                      onSectionSelect={(section, protein, cookingMethod) => {
+                        handleSectionSelect(section, protein, cookingMethod);
+                        // Close sheet logic would go here if we had a controlled state, 
+                        // but for now letting the user manually close or click outside is fine
+                      }}
+                      selectedSection={selectedSection}
+                      selectedProtein={selectedProtein}
+                      selectedCookingMethod={selectedCookingMethod}
+                    />
+                  </SheetContent>
+                </Sheet>
+              </div>
+
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
                 <Input
@@ -184,19 +209,7 @@ export default function Home() {
                 />
               </div>
 
-              {/* Advanced Search */}
-              <AdvancedSearch
-                onFilterChange={(filters) => {
-                  setTempRange({
-                    minTemp: filters.minTemp,
-                    maxTemp: filters.maxTemp,
-                  });
-                  setTimeRange({
-                    minTime: filters.minTime,
-                    maxTime: filters.maxTime,
-                  });
-                }}
-              />
+              {/* Advanced Search removed */}
 
               {/* Active Filters Display */}
               {hasActiveFilters && (
