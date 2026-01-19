@@ -12,7 +12,7 @@
     "check": "tsc --noEmit",
     "format": "prettier --write .",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist/public -r https://x-access-token:ghs_9IdjXsQ7S0MGehH4LQJ5Pd3vRmtBWr4Q455y@github.com/lmontenegro83/cookbook-web.git"
+    "deploy": "gh-pages -d dist/public -r https://x-access-token:@github.com/lmontenegro83/cookbook-web.git"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
