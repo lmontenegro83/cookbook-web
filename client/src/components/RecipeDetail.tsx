@@ -2,6 +2,7 @@ import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { decodeHtmlEntities } from '@/lib/textUtils';
+import DOMPurify from 'dompurify';
 
 interface Recipe {
   id: string;
@@ -24,6 +25,15 @@ interface Recipe {
 interface RecipeDetailProps {
   recipe: Recipe;
   onClose: () => void;
+}
+
+function sanitizeHtml(html: string | null | undefined) {
+  return html
+    ? DOMPurify.sanitize(html, {
+        ALLOWED_TAGS: ['span', 'p'],
+        ALLOWED_ATTR: ['class'],
+      })
+    : '';
 }
 
 export default function RecipeDetail({ recipe, onClose }: RecipeDetailProps) {
@@ -80,7 +90,7 @@ export default function RecipeDetail({ recipe, onClose }: RecipeDetailProps) {
         <div className="prose prose-sm max-w-none py-6 text-foreground">
           <div
             className="space-y-4"
-            dangerouslySetInnerHTML={{ __html: recipe.content }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(recipe.content) }}
           />
         </div>
 
